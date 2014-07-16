@@ -10,7 +10,7 @@ let g:loaded_sleuth = 1
 
 function! s:guess(lines) abort
   let options = {}
-  let heuristics = {'spaces': 0, 'hard': 0, 'soft': 0}
+  let heuristics = {'spaces': 0, 'hard': 0, 'soft': 0, 'shiftwidth': 0}
   let ccomment = 0
   let podcomment = 0
   let triplequote = 0
@@ -72,11 +72,12 @@ function! s:guess(lines) abort
     let indent = len(matchstr(substitute(line, '\t', softtab, 'g'), '^ *'))
     if indent > 1 && get(options, 'shiftwidth', 99) > indent
       let options.shiftwidth = indent
+      let heuristics.shiftwidth = indent
     endif
 
   endfor
 
-  if heuristics.hard > 19 * heuristics.spaces
+  if heuristics.hard > (19 * heuristics.spaces)
     return {'expandtab': 0, 'shiftwidth': &tabstop}
   elseif heuristics.soft != heuristics.hard
     let options.expandtab = heuristics.soft > heuristics.hard
