@@ -77,7 +77,7 @@ function! s:guess(lines) abort
 
   endfor
 
-  if heuristics.hard && !heuristics.spaces
+  if heuristics.hard > 19 * heuristics.spaces
     return {'expandtab': 0, 'shiftwidth': &tabstop}
   elseif heuristics.soft != heuristics.hard
     let options.expandtab = heuristics.soft > heuristics.hard
